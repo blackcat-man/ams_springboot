@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.four.mapper.UserRoleMapper">
+
+    <select id="getUserPermission" resultType="permission">
+        SELECT p.*
+        FROM sys_user AS u
+                 LEFT JOIN sys_user_role AS ur ON u.user_id = ur.user_id
+                 LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
+                 LEFT JOIN sys_permission_role AS rp ON r.role_id = rp.role_id
+                 LEFT JOIN sys_permission AS p ON p.permission_id = rp.permission_id
+        WHERE u.user_id = #{uid}
+    </select>
+</mapper>
