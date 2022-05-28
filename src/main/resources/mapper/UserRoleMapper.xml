@@ -4,11 +4,16 @@
 
     <select id="getUserPermission" resultType="permission">
         SELECT p.*
-        FROM sys_user AS u
-                 LEFT JOIN sys_user_role AS ur ON u.user_id = ur.user_id
-                 LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-                 LEFT JOIN sys_permission_role AS rp ON r.role_id = rp.role_id
-                 LEFT JOIN sys_permission AS p ON p.permission_id = rp.permission_id
-        WHERE u.user_id = #{uid}
+        FROM sys_user_role r
+                 INNER JOIN sys_permission_role pr ON r.role_id = pr.role_id
+                 INNER JOIN sys_permission p ON pr.permission_id = p.permission_id
+        WHERE r.user_id = #{uid}
     </select>
+    <select id="getRoleNamesByUserId" resultType="java.lang.String">
+        select role_name
+        FROM sys_user_role ur
+        INNER JOIN sys_role r ON r.role_id = ur.role_id
+        WHERE ur.user_id = #{uid}
+    </select>
+
 </mapper>

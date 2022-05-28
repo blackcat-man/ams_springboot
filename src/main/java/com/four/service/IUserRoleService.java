@@ -2,7 +2,10 @@ package com.four.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.four.entity.User;
 import com.four.entity.UserRole;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,5 +16,6 @@ import com.four.entity.UserRole;
  * @since 2022-05-18
  */
 public interface IUserRoleService extends IService<UserRole> {
+
 
 }

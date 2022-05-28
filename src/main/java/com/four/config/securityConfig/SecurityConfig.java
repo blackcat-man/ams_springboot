@@ -24,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -89,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(userLogoutSuccessHandler) // 自定义注销处理器
                 .deleteCookies("JSESSIONID")
                 .and()
-                .addFilterBefore(uriFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(uriFilter, LogoutFilter.class);
     }
 
 

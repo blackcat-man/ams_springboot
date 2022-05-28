@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -37,20 +38,24 @@ public class LoginServiceImpl implements ILoginService {
             throw new UsernameNotFoundException("用户名不合法！");
         }
 
-        User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getName, username));
+        User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("用户名不存在！");
         }
         List<Permission> userPermission = userRoleMapper.getUserPermission(user.getUserId());
+
+        System.out.println(userPermission);
+
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-        if (userPermission.get(0) != null) {
-            userPermission.stream().forEach(item -> {
-                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(item.getUrl());
-                grantedAuthorities.add(grantedAuthority);
-            });
-        }
+        if (!(userPermission.size() < 1 || userPermission.isEmpty())) {
 
+            grantedAuthorities = userPermission.stream().map(item -> {
+                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(item.getUrl());
+                return grantedAuthority;
+            }).collect(Collectors.toList());
+
+        }
         return new SecurityUser(user, grantedAuthorities);
     }
 }

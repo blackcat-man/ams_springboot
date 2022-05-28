@@ -1,7 +1,9 @@
 package com.four.config.securityConfig;
 
 import com.four.controller.common.R;
+import com.four.utils.RedisUtils;
 import com.four.utils.ResponseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -16,9 +18,13 @@ import java.io.IOException;
  */
 @Component
 public class UserLoginFailureHandler implements AuthenticationFailureHandler {
+
+    @Autowired
+    private RedisUtils redisUtils;
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
 
-        ResponseUtils.responseJson(httpServletResponse,R.error("登录失败，请检查！"));
+        redisUtils.deleteCode(httpServletRequest.getParameter("pCode"));
+        ResponseUtils.responseJson(httpServletResponse,R.error("用户名或密码错误"));
     }
 }

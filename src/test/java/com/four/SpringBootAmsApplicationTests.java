@@ -1,19 +1,24 @@
 package com.four;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.four.entity.LoginHistory;
 import com.four.entity.Permission;
 import com.four.entity.User;
+import com.four.mapper.UserMapper;
 import com.four.mapper.UserRoleMapper;
+import com.four.service.ILoginHistoryService;
 import com.four.service.ILoginService;
+import com.four.service.IUserRoleService;
 import com.four.service.IUserService;
 import com.four.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+
 
 @SpringBootTest
 class SpringBootAmsApplicationTests {
@@ -21,61 +26,43 @@ class SpringBootAmsApplicationTests {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private UserRoleMapper userRoleMapper;
 
     @Autowired
-    private ILoginService loginService;
+    private UserMapper userMapper;
 
 
     @Autowired
-    private RedisUtils redisUtils;
-
+    private ILoginHistoryService loginHistoryService;
 
     @Test
-    void testString() {
-        String str = "hahahxfsd";
-        int xf = str.indexOf("haha");
-        System.out.println(xf);
+    void test() {
+
+        List<LoginHistory> list = loginHistoryService.list(
+                new LambdaQueryWrapper<LoginHistory>()
+                        .eq(LoginHistory::getLoginName, "admin")
+                        .orderByDesc(LoginHistory::getTime)
+                        .last("limit 10"));
+
+        System.out.println(list);
+
     }
 
     @Test
-    void testRedis() {
-        redisUtils.delete("xuhuan");
-    }
-
-    @Test
-    void testRedisGet() {
-        System.out.println(redisUtils.getToken("token_key"));
-    }
-
-    @Test
-    void testLoginService() {
-        UserDetails xuhuan = loginService.loadByUsername("xuhuan");
-        System.out.println(xuhuan.getAuthorities());
-        System.out.println(xuhuan.getUsername());
-        System.out.println(xuhuan.getPassword());
-    }
-
-    @Test
-    void testUserRoleMapper() {
-        List<Permission> userPermission = userRoleMapper.getUserPermission(2);
-        System.out.println(userPermission);
-    }
-
-    @Test
-    void contextLoads() {
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encode = passwordEncoder.encode("123");
+    void testMd5() {
+        String encode = new BCryptPasswordEncoder().encode("202cb962ac59075b964b07152d234b70");
         System.out.println(encode);
-        System.out.println(encode.equals("$2a$10$1GQ8qTHjmq94YdfAvLGsmeij1ZactutEF0XjWhWi4.4kP0r4QU.A."));
-
     }
 
     @Test
-    void testUserService() {
-        User user = userService.getUserWithRole("xuhuan");
+    void testOne() {
+        Page<User> page = userService.getPage(1, 3, new User());
+        System.out.println(page.getRecords());
+        System.out.println(page.getPages());
+    }
+
+    @Test
+    void name() {
+        User user = userMapper.selectById(1);
         System.out.println(user);
     }
 }

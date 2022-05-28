@@ -33,6 +33,11 @@ public class R {
         return new R(UN_LOGIN,"请先登录在操作哦~",null);
     }
 
+    public static R unLogin(String msg)
+    {
+        return new R(UN_LOGIN,msg,null);
+    }
+
     public static R success(String msg , Object data)
     {
         return new R(SUCCESS,msg,data);

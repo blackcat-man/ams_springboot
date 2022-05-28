@@ -45,5 +45,4 @@ public class Role implements Serializable {
     @TableField(exist = false)
     List<Permission> permissions;
 
-
 }

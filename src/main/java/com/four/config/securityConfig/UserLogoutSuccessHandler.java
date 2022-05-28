@@ -31,6 +31,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         // 清除上下文信息
         SecurityContextHolder.clearContext();
 
+
         ResponseUtils.responseJson(httpServletResponse, R.success("退出登录！"));
     }
 }

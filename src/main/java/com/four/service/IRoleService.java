@@ -1,8 +1,10 @@
 package com.four.service;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.four.entity.Role;
+import com.four.entity.User;
 
 
 /**
@@ -16,18 +18,20 @@ import com.four.entity.Role;
 public interface IRoleService extends IService<Role> {
 
 
-    /**
-     * 添加权限到角色
-     * @param roleId
-     * @param permissionIds
-     */
-    void addPermissionToRole(Integer roleId,Integer [] permissionIds);
+//    /**
+//     * 添加权限到角色
+//     * @param roleId
+//     * @param permissionIds
+//     */
+//    void addPermissionToRole(Integer roleId,Integer [] permissionIds);
 
 
     /**
-     * 根据id查找角色
+     * 根据id查找角色，包括角色的权限
      * @param rid
      * @return
      */
     Role getRoleById(Integer rid);
+
+    Page<Role> getPage(Integer page, Integer size, Role role);
 }

@@ -37,7 +37,7 @@ public class MybatisPlusUtils {
         autoGenerator.setGlobalConfig(globalConfig);
         // 设置包相关配置
         PackageConfig packageConfig = new PackageConfig();
-        packageConfig.setParent("com.xuhuan.ams"); // 设置生成的包名
+        packageConfig.setParent("com.four"); // 设置生成的包名
         autoGenerator.setPackageInfo(packageConfig);
         // 策略设置
         StrategyConfig strategyConfig = new StrategyConfig();

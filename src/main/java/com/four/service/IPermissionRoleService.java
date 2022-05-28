@@ -2,6 +2,7 @@ package com.four.service;
 
 import com.four.entity.PermissionRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.four.entity.Role;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPermissionRoleService extends IService<PermissionRole> {
 
+    void addRolePermission(Role role);
 }

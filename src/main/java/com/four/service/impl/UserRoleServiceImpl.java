@@ -3,6 +3,7 @@ package com.four.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.four.entity.Permission;
+import com.four.entity.User;
 import com.four.entity.UserRole;
 import com.four.mapper.UserRoleMapper;
 import com.four.service.IUserRoleService;

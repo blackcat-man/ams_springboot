@@ -17,5 +17,17 @@ import java.util.List;
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
+    /**
+     * 根据用户id得到用户所有权限
+     * @param uid
+     * @return
+     */
     List<Permission> getUserPermission(Integer uid);
+
+    /**
+     * 根据uid得到用户的roleNames
+     * @param uid
+     * @return
+     */
+    List<String> getRoleNamesByUserId(Integer uid);
 }

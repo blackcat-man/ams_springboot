@@ -79,6 +79,9 @@ public class JwtUtils {
      */
     public String getUsername(String token)
     {
+        if (!checkToken(token)) {
+            return null;
+        }
         Claims claims = parseToken(token);
         String username = (String) claims.get(USER_NAME);
         return username;
@@ -93,7 +96,7 @@ public class JwtUtils {
      */
     public boolean validityToken(String accessToken,String validityToken)
     {
-        if (validityToken != null)
+        if (validityToken != null && accessToken!=null)
         {
             if (accessToken.equals(validityToken))
             {

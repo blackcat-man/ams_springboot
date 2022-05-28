@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 
 @Slf4j
-@RestController()
+@RestController
 @Api(tags = "登录")
 public class LoginController {
 
@@ -30,12 +30,13 @@ public class LoginController {
 
     /**
      * 获得验证码
+     * @param pCode
      * @param request
      * @param response
      */
     @GetMapping("/createImg")
-    @ApiOperation("获取验证码")
-    public void createImg(HttpServletRequest request, HttpServletResponse response) {
+    @ApiOperation(value = "获取验证码" , produces = "image/jpeg")
+    public void createImg(String pCode,HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("image/jpeg"); //设置相应类型,告诉浏览器输出的内容为图片
             response.setHeader("Pragma", "No-cache"); //设置响应头信息，告诉浏览器不要缓存此内容
@@ -46,7 +47,7 @@ public class LoginController {
             String randcode = randomValidateCode.getRandcode(response);
 
             //将生成的随机验证码存放到redis中
-            redisUtils.saveCode(request.getParameter("pCode"),randcode);
+            redisUtils.saveCode(pCode,randcode);
         } catch (Exception e) {
             log.error("获取验证码异常：", e);
         }

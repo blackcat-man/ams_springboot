@@ -37,6 +37,11 @@ public class User implements Serializable {
     private String name;
 
     /**
+     * 账号
+     */
+    private String username;
+
+    /**
      * 邮箱
      */
     private String email;
@@ -56,13 +61,8 @@ public class User implements Serializable {
      */
     private Integer status;
 
+
     @TableField(exist = false)
     private List<Role> roles;
 
-    @TableField(exist = false)
-    private String statusStr;
-
-    public String getStatusStr() {
-        return this.status==1?"启用":"禁用";
-    }
 }
